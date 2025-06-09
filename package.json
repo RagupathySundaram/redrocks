@@ -6,7 +6,8 @@
     "start-w": "webpack serve",
     "build-w": "webpack --mode production",
     "build-r": "react-scripts build",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "npm run build-w"
   },
   "keywords": [],
   "author": "",
