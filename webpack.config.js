@@ -1,12 +1,26 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
+const loader = require('sass-loader');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    // optimization: { runtimeChunk: 'single', minimize: false, },
+    // externals: {
+    //     'react': 'react'
+    // },
+    entry: {
+        main: './src/index.js',
+        // vendors: './src/vendors.js',
+    },
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js'
+        path: path.resolve(__dirname, 'build'),
+        // filename: '[name].js',
+        // filename: "[name].[contenthash].js",
+        filename: 'bundle.js',
+        publicPath: '/',
+        // chunkFilename: '[id].[chunkhash].js'
     },
     module: {
         rules: [
@@ -19,7 +33,7 @@ module.exports = {
             },
             {
                 test: /\.s[ac]ss$/i,
-                exclude: [ /node_modules/ ],
+                exclude: [/node_modules/],
                 use: [
                     // Creates `style` nodes from JS strings
                     "style-loader",
@@ -31,9 +45,13 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif)$/,
+                type: 'asset',
                 use: [{
                     loader: 'file-loader',
-                    options: {}
+                    options: { 
+                        // name: '[name].[ext]', 
+                        // outputPath: 'images/' 
+                    },
                 }]
             }
         ]
@@ -43,7 +61,7 @@ module.exports = {
         // alias: {
         //     styles: path.join(__dirname, 'styles') 
         // },
-        
+
         modules: ["./src", "node_modules"],
         // root: path.resolve('./src'),
         // extensions: ['', '.js'],
@@ -77,6 +95,9 @@ module.exports = {
         port: 9000
     },
     plugins: [
-        new Dotenv()
-      ]
+        new Dotenv(),
+        // new HtmlWebpackPlugin({
+        //     template: './build/index.html', // or your template path
+        // }),
+    ]
 };
